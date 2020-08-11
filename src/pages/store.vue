@@ -5,7 +5,7 @@
        <!-- <ListStore :user-id="user_id" @ActiveStoreBlock="activeStore"
   /> --> <section class="section">
       <div class="container">
-        <router-link to="/" tag="button" class="button is-link"
+        <router-link to="/store/create" tag="button" class="button is-link"
           >Create Store</router-link
         >
         <div id="carousel-demo" class="carousel">
@@ -51,13 +51,12 @@
       </div>
     </section>
     </div>
-    <div class="section container" >
+    <div v-if="storesOwned.length !=0 " class="section container" >
       <nav class="panel" >
         <p class="panel-heading">
           {{activeStore.store_name}}
         </p>
-        <div>
-        <div class="panel-block">
+        <div  v-if="productList.length != 0" class="panel-block">
           <p class="control has-icons-left">
             <input class="input" type="text" placeholder="Search" />
             <span class="icon is-left">
@@ -70,7 +69,7 @@
           <a>WishList</a>
           <a>Orders</a>
         </p> -->
-        <ul class="section" style="display: inline-flex;flex-wrap: wrap;">
+        <ul  v-if="productList.length != 0" class="section" style="display: inline-flex;flex-wrap: wrap;">
           <li v-for="(product, index) in productList" :key="index">
             <div class="columns is-multiline q-pa-md">
               <div class="img2 xpro2 is-quarter">
@@ -90,16 +89,14 @@
                     </a>
                   </header>
                   <div class="card-content">
-                    <div class="content">
-                      Item Description
-                      <a href="#">@bulmaio</a>. <a href="#">#css</a>
-                      <a href="#">#responsive</a>
-                      <br />
+                    <div class="content" style="    max-width: fit-content;">
+                      {{  product.p_description}}
+                    <br />
                     </div>
                   </div>
                   <footer class="card-footer">
-                    <a href="#" class="active card-footer-item">In Stock</a>
-                    <a href="#" class="card-footer-item">Out Of Stock</a>
+                    <label v-if="product.p_available_count > 0" href="#" class="active card-footer-item">In Stock : {{ product.p_available_count}}</label>
+                    <label v-if="product.p_available_count < 1" href="#" class="active card-footer-item">Out Of Stock</label>
                     <a href="#" class="card-footer-item">Remove Item</a>
                   </footer>
                 </div>
@@ -107,12 +104,14 @@
             </div>
           </li>
         </ul>
-        <div>
-        <div v-if="productList.length === 0">
-          <h3>Please Add Products to sell in your store </h3>
+        <div class="section" v-if="productList.length === 0">
+          <label>Please Add Products to sell in your store </label>
         </div>
       </nav>
     </div>
+      <div class="container section" v-if="storesOwned.length === 0">
+          <h4>Please Create New Store. </h4>
+       </div>
   </div>
 </template>
 <script>

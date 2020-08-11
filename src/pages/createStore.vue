@@ -89,7 +89,7 @@
           </div>
           <div class="field is-grouped">
             <div class="control">
-               <router-link to="/store" tag="button" class="button is-link" >Create</router-link>
+              <button class="button is-link is-light" @click="createStore()">Create Store</button>
             </div>
             <div class="control">
               <button class="button is-link is-light">Cancel</button>
@@ -123,15 +123,17 @@ export default {
   methods: {
     createStore () {
       const storeData = {
-        email: this.email,
-        brandLogo: this.brandLogo,
-        storeName: this.storeName,
-        location: this.location,
-        phone: this.phone,
-        description: this.description,
-        category: this.category
+        store_email: this.email,
+        store_brandLogo: this.brandLogo,
+        store_name: this.storeName,
+        store_location: this.location,
+        store_phone: this.phone,
+        store_description: this.description,
+        store_category: this.category
       }
-      if ((storeData.phone && storeData.storeName) !== null && (storeData.phone && storeData.storeName) !== '') {
+      console.log('storeDatastoreDatastoreDatasd,', storeData)
+
+      if ((storeData.store_name && storeData.store_category) !== null && (storeData.store_name && storeData.store_category) !== '') {
         Service.createStore(storeData).then(resp => {
           console.log('kel,', storeData)
         })

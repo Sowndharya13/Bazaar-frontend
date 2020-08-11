@@ -234,15 +234,15 @@ export default {
     },
     signUp () {
       const signUpData = {
-        email: this.email,
-        userName: this.userName,
-        password: this.password,
+        user_email: this.email,
+        user_name: this.userName,
+        user_password: this.password,
         location: this.location,
-        zip: this.zip,
-        phone: this.phone
+        user_zip: this.zip,
+        user_phone: this.phone
       }
       Service.signUp(signUpData).then(resp => {
-        console.log(signUpData)
+        console.log('Registered Successfully', signUpData)
       })
     },
     selectSign_up () {

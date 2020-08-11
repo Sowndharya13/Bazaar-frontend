@@ -13,7 +13,7 @@ export class FeedService {
 
   signUp (userCred) {
     console.log('signup service called with user data: ', userCred)
-    const url = '/user/create'
+    const url = '/user'
     return Service.post(url, userCred)
   }
 
@@ -53,8 +53,7 @@ export class FeedService {
   }
 
   createStore (storeData) {
-    console.log('Heyheyyyy: ', storeData)
-    const url = `/api/store/create(${storeData})`
-    return Service.put(url)
+    const url = '/store'
+    return Service.post(url, storeData)
   }
 }
