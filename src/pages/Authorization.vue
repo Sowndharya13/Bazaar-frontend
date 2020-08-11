@@ -167,7 +167,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="field ">
+                <div class="field " >
                   <button class="button is-link is-success" @click="signUp()">
                     Sign Up
                   </button>
@@ -199,6 +199,7 @@
 
 <script>
 import { FeedService } from '../services/FeedService'
+import * as bulmaToast from 'bulma-toast'
 
 const Service = new FeedService()
 
@@ -226,7 +227,7 @@ export default {
       }
       if ((loginData.email && loginData.password) !== null && (loginData.email && loginData.password) !== '') {
         Service.signIn(loginData).then(resp => {
-          console.log('successfully logged in machi,', resp)
+          bulmaToast.toast({ message: 'LoggedIn Successfully', type: 'is-success', position: 'top-center' })
           this.$router.push({ path: `/store/${resp.user_id}` })
         })
       }

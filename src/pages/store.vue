@@ -2,13 +2,61 @@
   <div>
 
     <div v-if="haveStore">
-       <ListStore :user-id="user_id"  />
+       <!-- <ListStore :user-id="user_id" @ActiveStoreBlock="activeStore"
+  /> --> <section class="section">
+      <div class="container">
+        <router-link to="/" tag="button" class="button is-link"
+          >Create Store</router-link
+        >
+        <div id="carousel-demo" class="carousel">
+          <ul style="display: flex;    flex-wrap: wrap;">
+            <li v-for="(store, index) in storesOwned" :key="index" style="max-width: fit-content;">
+              <div class="item-1 q-pa-md" @click="selectStore(store)" >
+                <div class="box column"  v-bind:class="{ 'active_box' : store == activeStore }">
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                        <img
+                          src="https://bulma.io/images/placeholders/128x128.png"
+                          alt="Image"
+                        />
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong> {{ store.store_name }} </strong>
+                          <small>, {{ store.store_location }}</small>
+                          <br />
+                          {{ store.store_category }}
+                        </p>
+                      </div>
+                      <nav class="level is-mobile">
+                        <div class="level-right">
+                          <a class="level-item" aria-label="reply">
+                            <span class="icon is-small">
+                              <i class="fas fa-share-alt" aria-hidden="true"></i>
+                            </span>
+                          </a>
+                        </div>
+                      </nav>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- End Carousel -->
+      </div>
+    </section>
     </div>
     <div class="section container" >
-      <nav class="panel">
+      <nav class="panel" >
         <p class="panel-heading">
-          Store Name
+          {{activeStore.store_name}}
         </p>
+        <div>
         <div class="panel-block">
           <p class="control has-icons-left">
             <input class="input" type="text" placeholder="Search" />
@@ -17,20 +65,19 @@
             </span>
           </p>
         </div>
-        <p class="panel-tabs">
+        <!-- <p class="panel-tabs">
           <a class="is-active">All Items</a>
           <a>WishList</a>
           <a>Orders</a>
-        </p>
-        <ul class="section" style="display: inline-flex;
-    flex-wrap: wrap;">
-          <li v-for="index in 4" :key="index">
+        </p> -->
+        <ul class="section" style="display: inline-flex;flex-wrap: wrap;">
+          <li v-for="(product, index) in productList" :key="index">
             <div class="columns is-multiline q-pa-md">
               <div class="img2 xpro2 is-quarter">
                 <div class="card">
                   <header class="card-header">
                     <p class="card-header-title">
-                      Component
+                      {{  product.p_name}}
                     </p>
                     <a
                       href="#"
@@ -60,31 +107,70 @@
             </div>
           </li>
         </ul>
-        <div class="panel-block">
-          <button class="button is-link is-outlined is-fullwidth">
-            Reset all filters
-          </button>
+        <div>
+        <div v-if="productList.length === 0">
+          <h3>Please Add Products to sell in your store </h3>
         </div>
       </nav>
     </div>
   </div>
 </template>
 <script>
-import ListStore from '../components/ListStore.vue'
+// import ListStore from '../components/ListStore.vue'
+import { FeedService } from '../services/FeedService'
+
+const Service = new FeedService()
 
 export default {
   name: 'MainLayout',
   components: {
-    ListStore
+    // ListStore
   },
 
   data () {
     return {
       haveStore: true,
-      user_id: this.$route.params.id
+      user_id: this.$route.params.id,
+      storesOwned: [],
+      activeStore: {},
+      productList: []
     }
   },
+  created () {
+    this.getStoresOwnedByUser()
+  },
+
   methods: {
+
+    getStoresOwnedByUser () {
+      if ((this.user_id) !== null && (this.user_id) !== '') {
+        Service.getStoresOwnedByUser(this.user_id).then(resp => {
+          this.storesOwned = resp
+          // console.log('storesOwned,from list store compo:', this.storesOwned + 'this.activeStore =', this.storesOwned[1].store_id)
+          this.activeStore = this.storesOwned[0]
+          this.getAllProductsByStore(this.activeStore.store_id)
+        })
+      }
+    },
+
+    selectStore (store) {
+      this.activeStore = store
+      this.getAllProductsByStore(store.store_id)
+    },
+
+    getAllProductsByStore (storeId) {
+      Service.getAllProductsByStore(storeId).then(resp => {
+        this.productList = resp
+        // console.log('storesOwned,from list store compo:', this.storesOwned + 'this.activeStore =', this.storesOwned[1].store_id)
+      })
+    }
   }
 }
 </script>
+
+<style scoped>
+  .active_box {
+    border: groove;
+    border-color: deepskyblue;
+  }
+</style>

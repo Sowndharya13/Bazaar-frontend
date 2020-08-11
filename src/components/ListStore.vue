@@ -6,7 +6,7 @@
           >Create Store</router-link
         >
         <div id="carousel-demo" class="carousel">
-          <ul style="    display: flex;    flex-wrap: wrap;">
+          <ul style="display: flex;    flex-wrap: wrap;">
             <li v-for="(store, index) in storesOwned" :key="index" style="max-width: fit-content;">
               <div class="item-1 q-pa-md">
                 <div class="box column">
@@ -59,20 +59,26 @@ export default {
   name: 'ListStore',
   data () {
     return {
-      storesOwned: []
+      storesOwned: [],
+      activeStore: ''
     }
   },
   created () {
     this.getStoresOwnedByUser()
+    this.selectStore()
   },
   methods: {
     getStoresOwnedByUser () {
       if ((this.userId) !== null && (this.userId) !== '') {
         Service.getStoresOwnedByUser(this.userId).then(resp => {
           this.storesOwned = resp
-          console.log('storesOwned,from list store compo:', this.storesOwned)
+          console.log('storesOwned,from list store compo:', this.storesOwned + 'this.activeStore =', this.storesOwned[1].store_id)
+          this.activeStore = this.storesOwned[1].store_id
         })
       }
+    },
+    selectStore (storeId) {
+      this.activeStore = storeId
     }
   }
 }

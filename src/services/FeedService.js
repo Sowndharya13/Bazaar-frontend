@@ -48,7 +48,7 @@ export class FeedService {
   }
 
   getAllProductsByStore (storeId) {
-    const url = '/product/' + storeId
+    const url = '/product/store/' + storeId
     return Service.get(url)
   }
 
