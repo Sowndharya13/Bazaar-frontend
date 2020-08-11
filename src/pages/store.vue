@@ -2,56 +2,7 @@
   <div>
 
     <div v-if="haveStore">
-      <section class="section">
-        <div class="container">
-          <router-link to="/" tag="button" class="button is-link">Create Store</router-link>
-
-          <div id="carousel-demo" class="carousel">
-                 <ul style="    display: flex;    flex-wrap: wrap;">
-          <li v-for="index in 3" :key="index" style="max-width: fit-content;">
-            <div class="item-1 q-pa-md">
-<div class="box column">
-  <article class="media">
-    <div class="media-left">
-      <figure class="image is-64x64">
-        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-      </figure>
-    </div>
-    <div class="media-content">
-      <div class="content">
-        <p>
-          <strong>Store {{ index}} </strong> <small>@johnsmith</small> <small>31m</small>
-          <br>
-          Lorem ipsum dolor sit amet
-        </p>
-      </div>
-      <nav class="level is-mobile">
-        <div class="level-left">
-          <a class="level-item" aria-label="reply">
-            <span class="icon is-small">
-              <i class="fas fa-reply" aria-hidden="true"></i>
-            </span>
-          </a>
-          <a class="level-item" aria-label="retweet">
-            <span class="icon is-small">
-              <i class="fas fa-retweet" aria-hidden="true"></i>
-            </span>
-          </a>
-          <a class="level-item" aria-label="like">
-            <span class="icon is-small">
-              <i class="fas fa-heart" aria-hidden="true"></i>
-            </span>
-          </a>
-        </div>
-      </nav>
-    </div>
-  </article>
-</div>            </div>
-          </li></ul>
-          </div>
-          <!-- End Carousel -->
-        </div>
-      </section>
+       <ListStore :user-id="user_id"  />
     </div>
     <div class="section container" >
       <nav class="panel">
@@ -119,14 +70,21 @@
   </div>
 </template>
 <script>
+import ListStore from '../components/ListStore.vue'
 
 export default {
   name: 'MainLayout',
-  components: {},
+  components: {
+    ListStore
+  },
+
   data () {
     return {
-      haveStore: true
+      haveStore: true,
+      user_id: this.$route.params.id
     }
+  },
+  methods: {
   }
 }
 </script>

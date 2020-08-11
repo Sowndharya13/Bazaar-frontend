@@ -2,21 +2,59 @@ import HelperService from './HelperService.js'
 
 const Service = new HelperService()
 
-// const API_URL = process.env.VUE_APP_ROOT_API;
-
-// var Token = sessionStorage.getItem("token");
-
 export class FeedService {
   // Login and Auth
 
-  signIn (login) {
-    console.log('Heyheyyyy: ', login)
-    const url = `/api/__/auth/login?n=${login.n}&ru=${login.ru}`
+  signIn (loginCred) {
+    console.log('Heyheyyyy: loginCredloginCred', loginCred)
+    const url = `/api/auth/login?email=${loginCred.email}&pwd=${loginCred.password}`
     return Service.login(url)
+  }
+
+  signUp (userCred) {
+    console.log('signup service called with user data: ', userCred)
+    const url = '/user/create'
+    return Service.post(url, userCred)
   }
 
   logout () {
     const url = '/api/logout'
     return Service.logout(url)
+  }
+
+  getAllUsers () {
+    const url = '/user'
+    return Service.get(url)
+  }
+
+  getUserById (userId) {
+    const url = '/user/' + userId
+    return Service.get(url)
+  }
+
+  getAllStores () {
+    const url = '/store'
+    return Service.get(url)
+  }
+
+  getStoresOwnedByUser (userId) {
+    const url = '/store/user/' + userId
+    return Service.get(url)
+  }
+
+  getAllProducts () {
+    const url = '/product'
+    return Service.get(url)
+  }
+
+  getAllProductsByStore (storeId) {
+    const url = '/product/' + storeId
+    return Service.get(url)
+  }
+
+  createStore (storeData) {
+    console.log('Heyheyyyy: ', storeData)
+    const url = `/api/store/create(${storeData})`
+    return Service.put(url)
   }
 }

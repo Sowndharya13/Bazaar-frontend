@@ -15,7 +15,7 @@
           <div class="field">
             <label class="label">Store Name</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Text input">
+              <input v-model="storeName" class="input" type="text" placeholder="Text input">
             </div>
           </div>
           <div class="field">
@@ -40,7 +40,7 @@
             <label class="label">Category</label>
             <div class="control">
               <div class="select">
-                <select>
+                <select v-model="category">
                   <option>Groceries</option>
                   <option>Textiles</option>
                   <option>Sports Accessories</option>
@@ -49,24 +49,33 @@
               </div>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Email</label>
-            <div class="control has-icons-left has-icons-right">
-              <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
-              <span class="icon is-small is-right">
-                <i class="fas fa-exclamation-triangle"></i>
-              </span>
-            </div>
-            <p class="help is-danger">This email is invalid</p>
-          </div>
+              <div class="field">
+                  <label for="" class="label">Email</label>
+                  <div class="control has-icons-left">
+                    <input
+                      v-model="email"
+                      type="email"
+                      placeholder="e.g.bobsmith@gmail.com"
+                      class="input"
+                      required
+                    />
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-envelope"></i>
+                    </span>
+                  </div>
+                </div>
 
           <div class="field">
+            <label class="label">Location</label>
+            <div class="control">
+               <input v-model="location" class="input" type="text" placeholder="Text input">
+
+            </div>
+          </div>
+           <div class="field">
             <label class="label">Description</label>
             <div class="control">
-              <textarea class="textarea" placeholder="Textarea"></textarea>
+              <textarea v-model="description" class="textarea" placeholder="Textarea"></textarea>
             </div>
           </div>
 
@@ -80,7 +89,7 @@
           </div>
           <div class="field is-grouped">
             <div class="control">
-               <router-link to="/store" tag="button" class="button is-link">Create</router-link>
+               <router-link to="/store" tag="button" class="button is-link" >Create</router-link>
             </div>
             <div class="control">
               <button class="button is-link is-light">Cancel</button>
@@ -95,7 +104,39 @@
 </template>
 
 <script>
+import { FeedService } from '../services/FeedService'
+
+const Service = new FeedService()
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  data () {
+    return {
+      email: '',
+      brandLogo: '',
+      storeName: '',
+      location: '',
+      phone: '',
+      description: '',
+      category: ''
+    }
+  },
+  methods: {
+    createStore () {
+      const storeData = {
+        email: this.email,
+        brandLogo: this.brandLogo,
+        storeName: this.storeName,
+        location: this.location,
+        phone: this.phone,
+        description: this.description,
+        category: this.category
+      }
+      if ((storeData.phone && storeData.storeName) !== null && (storeData.phone && storeData.storeName) !== '') {
+        Service.createStore(storeData).then(resp => {
+          console.log('kel,', storeData)
+        })
+      }
+    }
+  }
 }
 </script>
