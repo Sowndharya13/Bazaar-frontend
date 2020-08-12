@@ -53,6 +53,7 @@ export class FeedService {
   }
 
   createStore (storeData) {
+    console.log('in feed service. create store', storeData)
     const url = '/store'
     return Service.post(url, storeData)
   }

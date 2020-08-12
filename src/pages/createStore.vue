@@ -21,19 +21,26 @@
           <div class="field">
             <label class="label">Brand Logo</label>
             <div class="control">
-              <div class="file">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="resume">
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Choose a file…
-                    </span>
-                  </span>
-                </label>
-              </div>
+                    <input
+          id="up"
+          ref="file"
+          type="file"
+          class="q-pa-sm"
+          style="
+            font-size: 0.8rem;
+            outline: none;
+            padding: 0px;
+            padding: 1rem;
+            margin: auto;
+            display: block;
+            border: 1px dashed;
+            width: 100%;
+          "
+          accept="image/*"
+          @change="uploadFile()"
+        />
+              <div v-if="previewImage"> <img src:previewImage class="uploading-image" />
+ </div>
             </div>
           </div>
           <div class="field">
@@ -92,7 +99,7 @@
               <button class="button is-link is-light" @click="createStore()">Create Store</button>
             </div>
             <div class="control">
-              <button class="button is-link is-light">Cancel</button>
+              <button class="button is-link is-light" @click="$router.go(-1)">Cancel</button>
             </div>
           </div>
       </section>
@@ -112,7 +119,7 @@ export default {
   data () {
     return {
       email: '',
-      brandLogo: '',
+      previewImage: null,
       storeName: '',
       location: '',
       phone: '',
@@ -121,10 +128,16 @@ export default {
     }
   },
   methods: {
+
+    uploadFile (e) {
+      console.log('e file shows:', e)
+      this.previewImage = this.$refs.file.files[0]
+      console.log('this.preview:', this.previewImage)
+    },
     createStore () {
       const storeData = {
         store_email: this.email,
-        store_brandLogo: this.brandLogo,
+        store_brandLogo: this.previewImage,
         store_name: this.storeName,
         store_location: this.location,
         store_phone: this.phone,

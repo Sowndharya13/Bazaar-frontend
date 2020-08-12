@@ -12,7 +12,7 @@
 
         <q-toolbar-title> Bazaar </q-toolbar-title>
 
-        <router-link to="/login" tag="button" class="button is-primary"
+        <router-link to="/" tag="button" class="button is-primary"
           >Logout</router-link
         >
       </q-toolbar>

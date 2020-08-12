@@ -227,9 +227,13 @@ export default {
       }
       if ((loginData.email && loginData.password) !== null && (loginData.email && loginData.password) !== '') {
         Service.signIn(loginData).then(resp => {
+          console.log('resooooooooooop: ', resp.user_id)
           bulmaToast.toast({ message: 'LoggedIn Successfully', type: 'is-success', position: 'top-center' })
           this.$router.push({ path: `/store/${resp.user_id}` })
         })
+          .catch(() => {
+            bulmaToast.toast({ message: 'LoggedIn Failed.Please try with valid email or password', type: 'is-danger', position: 'top-center' })
+          })
       }
     },
     signUp () {
